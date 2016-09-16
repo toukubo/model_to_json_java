@@ -19,9 +19,9 @@ public class ModelNameMap {
 		map.put("java.util.Collection", "Collection");
 	}
 	public String get(String parameterTypeName){
-		return in(parameterTypeName)?"noun":this.map.get(parameterTypeName);
+		return in(parameterTypeName)?this.map.get(parameterTypeName):"noun";
 	}
 	public boolean in(Object parameterTypeName) {
-		return map.get(parameterTypeName)==null;
+		return map.get(parameterTypeName)!=null;
 	}
 }

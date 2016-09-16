@@ -1,6 +1,7 @@
 package net.storyteller.model.model_to_json_java;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -13,7 +14,7 @@ import org.apache.commons.cli.PosixParser;
 
 public class App 
 {
-	public static void main( String[] args )	{
+	public static void main( String[] args ) throws ClassNotFoundException, IOException	{
 		
         Options options = new Options();
 
