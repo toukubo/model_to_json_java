@@ -4,14 +4,17 @@ import java.lang.reflect.Method;
 
 import com.google.gson.Gson;
 
-import net.storyteller.model.Attr;
-import net.storyteller.model.AttrImpl;
 
-@Data
 public class AttrConversion {
 
 	private Attr attr;
-	private String jsonString;
+	
+
+	public String getJsonString() {
+		final Gson gson = new Gson();
+		String jsonString = gson.toJson(attr);	
+		return jsonString;
+	}
 
 	public AttrConversion(Method method) {
 
@@ -22,18 +25,14 @@ public class AttrConversion {
 
 		String simplename = getSimplename(method);
 
-		attr = new AttrImpl();
+		attr = new Attr();
 		attr.setName(simplename);
 		ModelNameMap modelNameMap = new ModelNameMap();
 		attr.setClasstype(modelNameMap.get(parameterTypeName));
-		attr.setJapanese("");
-		Gson gson = new Gson();
-		this.jsonString = gson.toJson(attr);
-			
 	
 	}
 
-	private boolean valid(Method method) {
+	public boolean valid(Method method) {
 		if(method.getParameterTypes().length != 1)
 			return false;
 		if(!method.getName().startsWith("set"))
@@ -43,7 +42,8 @@ public class AttrConversion {
 		ModelNameMap modelNameMap = new ModelNameMap();
 		if(!modelNameMap.in(parameterTypeName))
 			return false;
-		return false;
+		
+		return true;
 	}
 
 	private String getSimplename(Method method) {
@@ -52,6 +52,10 @@ public class AttrConversion {
 		simplename = simplename.substring(0,1).toLowerCase() + simplename.substring(1);
 		return simplename;
 
+	}
+
+	public Attr getAttr() {
+		return this.attr;
 	}
 
 }

@@ -13,13 +13,19 @@ import org.w3c.dom.Attr;
 public class Conversion {
 	public Conversion(File file) throws ClassNotFoundException, IOException{
 		JarFile jarFile = new JarFile(file);
+		String jarFileName = jarFile.getName().replaceAll("\\.jar", "");
+		jarFileName = jarFileName.split("/")[jarFileName.split("/").length-1];//basename
+		
 		Enumeration<JarEntry> enumeration = jarFile.entries();
-		ClassLoader classLoader  = new URLClassLoader(new URL[]{file.toURL()}, getClass().getClassLoader());
+		ClassLoader parent = ClassLoader.getSystemClassLoader();
+
+		ClassLoader classLoader  = new URLClassLoader(new URL[]{file.toURI().toURL()}, getClass().getClassLoader());
 		
 		enumeration = jarFile.entries();
 		while (enumeration.hasMoreElements()) {
 			JarEntry entry = (JarEntry) enumeration.nextElement();
-			new ConvertionOfANoun(entry,classLoader);
+
+			NounConvertion nounConvertion =  new NounConvertion(entry,classLoader,jarFileName);
 		}
 	}
 
